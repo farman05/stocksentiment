@@ -41,9 +41,16 @@ const stockList = new mongoose.Schema({
   sector: String
 });
 
+const logsSchema = new mongoose.Schema({
+  name: String,
+  ipAddress: String,
+  userAgent: String,
+  timestamp: { type: Date, default: Date.now },
+});
+
 const Stock = mongoose.model("Stock", stockSchema);
 const StockList = mongoose.model("StockList", stockList);
-
+const logs = mongoose.model("Logs", logsSchema);
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 /**
@@ -199,10 +206,18 @@ app.get("/api/sentiment/:symbol", async (req, res, next) => {
     if (!symbol)
       return res.status(400).json({ error: "Stock symbol required" });
 
+    const userAgent = req.headers["user-agent"];
+    const ipAddress =
+      req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    logs.create({
+       name:symbol,
+       ipAddress,
+       userAgent
+    })
     const data = await searchStock(symbol);
     res.status(200).json(data);
   } catch (error) {
-    next(error);
+    return res.status(500).json({ error: error.message || "Something went wrong" });
   }
 });
 

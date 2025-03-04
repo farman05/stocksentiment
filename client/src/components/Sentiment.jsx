@@ -19,10 +19,10 @@ const SentimentAnalysis = ({ sentiment }) => {
   ];
 
   return (
-    <div className="bg-gray-900 shadow-xl rounded-2xl p-8 w-full max-w-5xl mx-auto">
+    <div className="bg-gray-900 shadow-xl rounded-2xl p-2 md:p-8 w-full max-w-5xl mx-auto">
       {/* Sentiment Label */}
       <h3
-        className={`text-xl font-bold text-center uppercase tracking-wider ${
+        className={`text-xl md:text-2xl font-bold text-center uppercase tracking-wider ${
           overall_sentiment_label === "Positive"
             ? "text-green-400"
             : overall_sentiment_label === "Neutral"
@@ -34,18 +34,17 @@ const SentimentAnalysis = ({ sentiment }) => {
       </h3>
 
       {/* Layout Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-6">
         {/* Pie Chart */}
         <div className="flex justify-center">
-          <PieChart width={400} height={400}>
+          <PieChart width={320} height={320} className="w-full max-w-xs">
             <Pie
               data={data}
               dataKey="value"
               cx="50%"
               cy="50%"
-              outerRadius={130}
+              outerRadius={100}
               label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
-              labelStyle={{ fill: "white", fontSize: "14px", fontWeight: "bold" }}
             >
               {data.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
@@ -57,14 +56,14 @@ const SentimentAnalysis = ({ sentiment }) => {
         </div>
 
         {/* Explanation & Details */}
-        <div className="bg-gray-800 p-6 rounded-xl text-white shadow-lg">
-          <strong className="block text-yellow-300 text-2xl mb-3">
+        <div className="bg-gray-800 p-5 md:p-6 rounded-xl text-white shadow-lg">
+          <strong className="block text-yellow-300 text-xl md:text-2xl mb-3">
             📝 Explanation:
           </strong>
-          <p className="text-lg leading-relaxed mb-4">{explanation}</p>
+          <p className="text-sm md:text-lg leading-relaxed mb-4">{explanation}</p>
 
           {/* Detailed Insights */}
-          <ul className="list-disc pl-5 space-y-2 text-md">
+          <ul className="list-disc pl-4 space-y-2 text-sm md:text-md">
             {details.map((point, index) => (
               <li key={index} className="text-gray-300">
                 {point}
