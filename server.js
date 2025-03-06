@@ -207,11 +207,17 @@ app.get("/api/sentiment/:symbol", async (req, res, next) => {
       return res.status(400).json({ error: "Stock symbol required" });
 
     const userAgent = req.headers["user-agent"];
-    const ipAddress =
-      req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    const ipAddress = req.headers["x-forwarded-for"] 
+    ? req.headers["x-forwarded-for"].split(",")[0].trim()  // Gets the first valid IP in case of multiple
+    : req.socket.remoteAddress;
+
+  // Convert "::ffff:127.0.0.1" to "127.0.0.1"
+  const formattedIp = ipAddress.includes("::ffff:") ? ipAddress.split("::ffff:")[1] : ipAddress;
+
+
     logs.create({
        name:symbol,
-       ipAddress,
+       ipAddress:formattedIp,
        userAgent
     })
     const data = await searchStock(symbol);

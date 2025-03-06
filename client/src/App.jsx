@@ -20,7 +20,8 @@ export default function App() {
   const [error, setError] = useState("");
   const [stocks, setStocks] = useState([]);
   const [selectedStock, setSelectedStock] = useState("");
-
+  const [books, setBooks] = useState([]);
+  const [mustHave, setMustHave] = useState([]);
   useEffect(() => {
     // Fetch available stocks
     const fetchStocks = async () => {
@@ -31,7 +32,8 @@ export default function App() {
         console.error("Error fetching stocks:", error);
       }
     };
-
+    setBooks(getRandomThree(booksList));
+    setMustHave(getRandomThree(mustHaveList));
     fetchStocks();
   }, []);
 
@@ -99,7 +101,7 @@ export default function App() {
           </button>
         </div>
         <AffiliateProduct
-           products={getRandomThree(booksList)}
+           products={books}
            title="Recommended Trading books"
         />
        
@@ -119,7 +121,7 @@ export default function App() {
               {/* <h3 className="text-2xl font-semibold text-white mb-3">Sentiment Analysis</h3> */}
               <SentimentComponent sentiment={stockData.sentiment} />
               <AffiliateProduct
-              products={getRandomThree(mustHaveList)}
+              products={mustHave}
               title="Must-Have Tools for Every Trader"
               />
             </div>
