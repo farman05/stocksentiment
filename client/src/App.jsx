@@ -6,13 +6,14 @@ const NewsComponent = React.lazy(() => import("./components/News"));
 const StockSelector = React.lazy(() => import("./components/StockSelector"));
 const StockLoader = React.lazy(() => import("./components/Loader"));
 const SEO = React.lazy(() => import("./components/SEO"));
-
+const AffiliateProduct = React.lazy(() => import("./components/AffiliateProduct"));
+import { booksList, mustHaveList } from "./products";
+import { getRandomThree } from "./utils/helper";
 // import NewsComponent from "./components/News";
 // import StockSelector from "./components/StockSelector";
 // import StockLoader from "./components/Loader";
 // import SEO from "./components/SEO";
 const apiUrl = import.meta.env.VITE_API_URL;
-console.log({apiUrl})
 export default function App() {
   const [stockData, setStockData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -97,6 +98,11 @@ export default function App() {
             Analyze
           </button>
         </div>
+        <AffiliateProduct
+           products={getRandomThree(booksList)}
+           title="Recommended Trading books"
+        />
+       
 
         {/* Loading & Error Messages */}
         {loading &&       <StockLoader/> }
@@ -112,6 +118,10 @@ export default function App() {
             <div className="mt-6">
               {/* <h3 className="text-2xl font-semibold text-white mb-3">Sentiment Analysis</h3> */}
               <SentimentComponent sentiment={stockData.sentiment} />
+              <AffiliateProduct
+              products={getRandomThree(mustHaveList)}
+              title="Must-Have Tools for Every Trader"
+              />
             </div>
 
             {/* Price Chart */}
@@ -125,6 +135,12 @@ export default function App() {
               <h3 className="text-2xl font-semibold text-white mb-3">Latest News</h3>
               <NewsComponent news={stockData.news} />
             </div>
+            {/* Affiliate Section (Below News) */}
+              {/* <AffiliateProduct
+              title="Top 5 Books for Stock Market Success"
+              image="https://via.placeholder.com/80"
+              link="https://www.amazon.in/dp/YOUR_AFFILIATE_ID"
+            /> */}
           </div>
         )}
       </div>
