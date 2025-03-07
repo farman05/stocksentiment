@@ -100,10 +100,7 @@ export default function App() {
             Analyze
           </button>
         </div>
-        <AffiliateProduct
-           products={books}
-           title="Recommended Trading books"
-        />
+       
        
 
         {/* Loading & Error Messages */}
@@ -145,7 +142,12 @@ export default function App() {
             /> */}
           </div>
         )}
+         <AffiliateProduct
+           products={books}
+           title="Recommended Trading books"
+        />
       </div>
+     
     </div>
   );
 }
